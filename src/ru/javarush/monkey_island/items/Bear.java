@@ -3,14 +3,19 @@ package ru.javarush.monkey_island.items;
 import java.util.HashMap;
 
 public class Bear extends Predator{
-    int WEIGHT;
+    final static int TYPE = 4;
+    final static int WEIGHT = 500_000;
     int MAX_AMOUNT_ON_FIELD;
     int SPEED;
     double MAX_FOOD;
-    final int TYPE = 4;
 
+    @Override
     public int getTYPE() {
         return TYPE;
+    }
+    @Override
+    public int getWEIGHT() {
+        return WEIGHT;
     }
     public double getMAX_FOOD() {
         return MAX_FOOD;

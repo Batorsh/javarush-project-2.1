@@ -1,13 +1,20 @@
 package ru.javarush.monkey_island.items;
 
 public class Sheep extends Herbivore {
-    int WEIGHT;
+    final static int TYPE = 11;
+    final static int WEIGHT = 70_000;
     int MAX_AMOUNT_ON_FIELD;
     int SPEED;
     double MAX_FOOD;
-    final int TYPE = 11;
+
 
     public int getTYPE() {
         return TYPE;
+    }
+    public int getWEIGHT() {
+        return WEIGHT;
+    }
+    public double getMAX_FOOD() {
+        return MAX_FOOD;
     }
 }

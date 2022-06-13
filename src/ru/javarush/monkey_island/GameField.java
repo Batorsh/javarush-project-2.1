@@ -37,13 +37,21 @@ public class GameField implements Runnable {
     }
 
     public void tryToEat(GameItem gameItem){
+        List<Integer> listOfAvailableFood = new ArrayList<>();
         int typeOfItem = gameItem.getTYPE();
         double needFood = gameItem.getMAX_FOOD();
         for (int i = 1; i < 17; i++){
+            if (Constants.chanceToEat(typeOfItem, i) > 0 && listOfItems.get(i).size() > 0) {
+                listOfAvailableFood.add(i);
+            }
+        }
+        int randomTypeForAttack = ThreadLocalRandom.current().nextInt(listOfAvailableFood.size());
+        int pointsOfAttack = ThreadLocalRandom.current().nextInt(101);
+        if (pointsOfAttack > 100 - Constants.chanceToEat(typeOfItem, randomTypeForAttack)){
+            gameItem.setCurrentFood(listOfItems.get(randomTypeForAttack).get(0).getWEIGHT());
+            listOfItems.get(randomTypeForAttack).remove(0);
 
         }
-
-
     }
 
     GameItem createNewItem(int i) {
