@@ -11,7 +11,7 @@ public class Constants {
 
     static public HashMap<Integer, Integer> MAX_ITEMS_ON_FIELD = new HashMap<>();
 
-    {
+    static {
         MAX_ITEMS_ON_FIELD.put(1, 30);
         MAX_ITEMS_ON_FIELD.put(2, 30);
         MAX_ITEMS_ON_FIELD.put(3, 30);
@@ -51,7 +51,7 @@ public class Constants {
         MapOfCanEat.put(16, new HashSet<>(List.of(0)));
     }
 
-    static int[][] chanceToEat = new int[16][16];
+    static int[][] chanceToEat = new int[17][17];
 
     static {
         //Wolf
@@ -111,7 +111,7 @@ public class Constants {
         return MapOfCanEat.get(gameItem1.getTYPE()).contains(gameItem2.getTYPE());
     }
 
-    static public int chanceToEat(GameItem gameItem1, GameItem gameItem2) {
-        return chanceToEat[gameItem1.getTYPE()][gameItem2.getTYPE()];
+    static public int chanceToEat(int typeOfItem1, int typeOfItem2) {
+        return chanceToEat[typeOfItem1][typeOfItem2];
     }
 }

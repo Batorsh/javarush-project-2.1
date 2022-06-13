@@ -11,4 +11,8 @@ public abstract class GameItem {
     public int getTYPE() {
         return TYPE;
     }
+
+    public double getMAX_FOOD() {
+        return MAX_FOOD;
+    }
 }
