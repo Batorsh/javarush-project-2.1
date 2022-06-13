@@ -51,9 +51,58 @@ public class Constants {
         MapOfCanEat.put(16, new HashSet<>(List.of(0)));
     }
 
-    static int[][] chanceToEat = new int[ISLAND_WIDTH][ISLAND_LENGTH];
+    static int[][] chanceToEat = new int[16][16];
 
     static {
+        //Wolf
+        chanceToEat[1][6] = 10;
+        chanceToEat[1][7] = 15;
+        chanceToEat[1][8] = 60;
+        chanceToEat[1][9] = 80;
+        chanceToEat[1][10] = 60;
+        chanceToEat[1][11] = 70;
+        chanceToEat[1][12] = 15;
+        chanceToEat[1][13] = 10;
+        chanceToEat[1][14] = 40;
+        //Boa
+        chanceToEat[2][3] = 15;
+        chanceToEat[2][8] = 20;
+        chanceToEat[2][9] = 40;
+        chanceToEat[2][14] = 10;
+        //Fox
+        chanceToEat[3][8] = 70;
+        chanceToEat[3][9] = 90;
+        chanceToEat[3][14] = 60;
+        chanceToEat[3][15] = 40;
+        //Bear
+        chanceToEat[4][2] = 80;
+        chanceToEat[4][6] = 40;
+        chanceToEat[4][7] = 80;
+        chanceToEat[4][8] = 80;
+        chanceToEat[4][9] = 90;
+        chanceToEat[4][10] = 70;
+        chanceToEat[4][11] = 70;
+        chanceToEat[4][12] = 50;
+        chanceToEat[4][13] = 20;
+        chanceToEat[4][14] = 10;
+
+        chanceToEat[5][3] = 10;
+        chanceToEat[5][8] = 90;
+        chanceToEat[5][9] = 90;
+        chanceToEat[5][14] = 80;
+
+        chanceToEat[6][16] = 100;
+        chanceToEat[7][16] = 100;
+        chanceToEat[8][16] = 100;
+        chanceToEat[9][15] = 90;
+        chanceToEat[9][16] = 100;
+        chanceToEat[10][16] = 100;
+        chanceToEat[11][16] = 100;
+        chanceToEat[12][9] = 50;
+        chanceToEat[12][15] = 90;
+        chanceToEat[13][16] = 100;
+        chanceToEat[14][15] = 90;
+        chanceToEat[15][16] = 100;
 
     }
 
