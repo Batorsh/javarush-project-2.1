@@ -9,6 +9,12 @@ public abstract class GameItem {
     static int MAX_HEALTH_POINT;
 
     int healthPoint;
+    int healthPointsPerDay = 0;
+
+    public int getHealthPointsPerDay() {
+        return healthPointsPerDay;
+    }
+
     public int getMaxHealthPoint() {
         return MAX_HEALTH_POINT;
     }

@@ -5,9 +5,14 @@ public class Plant extends GameItem{
     final static int TYPE = 16;
     final static int WEIGHT = 1_000;
 
-    static int MAX_HEALTH_POINT;
+    static int MAX_HEALTH_POINT = 1;
 
-    int healthPoint;
+    int healthPoint = 1;
+    int healthPointsPerDay = 0;
+
+    public int getHealthPointsPerDay() {
+        return healthPointsPerDay;
+    }
     public void setHealthPoint(int healthPoint) {
         this.healthPoint += healthPoint;
         if (this.healthPoint > getMaxHealthPoint()) {

@@ -5,9 +5,14 @@ public class Mouse extends Herbivore {
     final static int WEIGHT = 50;
     int MAX_AMOUNT_ON_FIELD;
     int SPEED;
-    static int MAX_HEALTH_POINT;
+    static int MAX_HEALTH_POINT = 10;
 
     int healthPoint;
+    int healthPointsPerDay = 1;
+
+    public int getHealthPointsPerDay() {
+        return healthPointsPerDay;
+    }
     public void setHealthPoint(int healthPoint) {
         this.healthPoint += healthPoint;
         if (this.healthPoint > getMaxHealthPoint()) {

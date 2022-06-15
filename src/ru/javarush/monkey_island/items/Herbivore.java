@@ -8,6 +8,11 @@ public abstract class Herbivore extends GameItem{
     static int MAX_HEALTH_POINT;
 
     int healthPoint;
+    int healthPointsPerDay = 0;
+
+    public int getHealthPointsPerDay() {
+        return healthPointsPerDay;
+    }
     public void setHealthPoint(int healthPoint) {
         this.healthPoint += healthPoint;
         if (this.healthPoint > getMaxHealthPoint()) {

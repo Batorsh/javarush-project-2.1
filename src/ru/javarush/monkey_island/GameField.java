@@ -72,6 +72,15 @@ public class GameField implements Runnable {
                 System.out.println("TYPE " + i + " was created = " + newCreatedItems.size());
                 System.out.println("TYPE " + i + " : " + listOfItems.get(i).size() + " : max on field " + constants.getMaxItemsOnField(i));
             }
+            //ReducingHP and Abandon Island
+            for (int i = 1; i < constants.getAmountOfTypes() - 2; i++) {//до 15, потому что трава и гусеница не умирают
+                for (GameItem gameItem : listOfItems.get(i)) {
+                    if(reduceHPbyDay(gameItem) < 0) {
+                        System.out.println(gameItem.getClass().getSimpleName() + " " + gameItem.hashCode() + " abandoned");
+                        listOfItems.remove(gameItem);
+                    }
+                }
+            }
         }
     }
 
@@ -108,6 +117,12 @@ public class GameField implements Runnable {
         }
         return 0;
     }
+
+    public int reduceHPbyDay(GameItem gameItem){
+        gameItem.setHealthPoint(gameItem.getHealthPoint() - gameItem.getHealthPointsPerDay());
+        return gameItem.getHealthPoint();
+    }
+
 
     GameItem createNewItem(int i) {
         switch (i) {
