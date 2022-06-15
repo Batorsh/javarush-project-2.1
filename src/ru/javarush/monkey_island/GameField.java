@@ -31,18 +31,17 @@ public class GameField implements Runnable {
     @Override
     public void run() {
         for (int day = 1; day < 100; day++) {
+            //Eating
             for (int i = 1; i < constants.getAmountOfTypes() - 1; i++) {//до 16, потому что трава все равно никого не ест
                 for (GameItem gameItem : listOfItems.get(i)) {
+
                     tryToEat(gameItem);
                 }
             }
             //Reproducing
-
             for (int i = 1; i < constants.getAmountOfTypes(); i++) {//
-                System.out.println("i" + i);
                 Queue<GameItem> newCreatedItems = new LinkedList<>();
                 if (listOfItems.get(i).size() < constants.getMaxItemsOnField(i)) {
-
                     if (i != 16) {
                         for (GameItem gameItem : listOfItems.get(i)) {
                             int amountOfNewItems = tryToReproduce(gameItem);
@@ -60,8 +59,8 @@ public class GameField implements Runnable {
                     }
                 }
                 listOfItems.get(i).addAll(newCreatedItems);
-                System.out.println("Type " + i + " was created = " + newCreatedItems.size());
-                System.out.println("TYPE " + i + " : " + listOfItems.get(i).size());
+                System.out.println("TYPE " + i + " was created = " + newCreatedItems.size());
+                System.out.println("TYPE " + i + " : " + listOfItems.get(i).size() + " : max on field " + constants.getMaxItemsOnField(i));
             }
         }
     }
@@ -69,7 +68,7 @@ public class GameField implements Runnable {
     public void tryToEat(GameItem gameItem) {
         List<Integer> listOfAvailableFood = new ArrayList<>();
         int typeOfItem = gameItem.getTYPE();
-        double needFood = gameItem.getMAX_FOOD();
+
         for (int i = 1; i < constants.getAmountOfTypes(); i++) {
             if (constants.chanceToEat(typeOfItem, i) > 0 && listOfItems.get(i).size() > 0) {
                 listOfAvailableFood.add(i);
@@ -79,7 +78,10 @@ public class GameField implements Runnable {
             int randomTypeForAttack = ThreadLocalRandom.current().nextInt(listOfAvailableFood.size());
             int pointsOfAttack = ThreadLocalRandom.current().nextInt(101);
             if (pointsOfAttack > 100 - constants.chanceToEat(typeOfItem, listOfAvailableFood.get(randomTypeForAttack))) {
-                System.out.println(pointsOfAttack + " " + gameItem.getClass().getSimpleName() + " Ест " + listOfItems.get(listOfAvailableFood.get(randomTypeForAttack)).poll().getClass().getSimpleName());
+                GameItem killedItem = listOfItems.get(listOfAvailableFood.get(randomTypeForAttack)).poll();
+                System.out.print(pointsOfAttack + " " + gameItem.getClass().getSimpleName() + " " + gameItem.hashCode() + " eats " + killedItem.getClass().getSimpleName());
+                gameItem.setHealthPoint(killedItem.getWEIGHT());
+                System.out.println(" and gets " + killedItem.getWEIGHT() + " health points");
             }
         }
     }

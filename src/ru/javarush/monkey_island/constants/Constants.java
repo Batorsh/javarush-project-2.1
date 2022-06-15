@@ -139,7 +139,7 @@ public class Constants {
         chanceToReproduce[12] = 16;
         chanceToReproduce[13] = 5;
         chanceToReproduce[14] = 18;
-        chanceToReproduce[15] = 70;
+        chanceToReproduce[15] = 100;
         chanceToReproduce[16] = 70;
     }
     public int chanceToReproduce(int typeOfItem1) {
@@ -162,7 +162,7 @@ public class Constants {
         maxOffspring[12] = 2;
         maxOffspring[13] = 2;
         maxOffspring[14] = 5;
-        maxOffspring[15] = 8;
+        maxOffspring[15] = 10;
         maxOffspring[16] = 10;
     }
 

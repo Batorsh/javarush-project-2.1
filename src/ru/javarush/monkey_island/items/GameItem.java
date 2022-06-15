@@ -5,13 +5,26 @@ public abstract class GameItem {
 
     static int TYPE;
     static int WEIGHT;
-    static int MAX_FOOD;
 
+    static int MAX_HEALTH_POINT;
+
+    int healthPoint;
+    public int getMaxHealthPoint() {
+        return MAX_HEALTH_POINT;
+    }
+    public void setHealthPoint(int healthPoint) {
+        this.healthPoint += healthPoint;
+        if (this.healthPoint > getMaxHealthPoint()){
+            this.healthPoint = getMaxHealthPoint();
+        }
+    }
+
+    public int getHealthPoint() {
+        return healthPoint;
+    }
 
     int MAX_AMOUNT_ON_FIELD;
     int SPEED;
-    double currentFood;
-
 
     public int getTYPE() {
         return TYPE;
@@ -19,15 +32,6 @@ public abstract class GameItem {
 
     public int getWEIGHT() {
         return WEIGHT;
-    }
-
-    public double getMAX_FOOD() {
-        return MAX_FOOD;
-    }
-
-    public void setCurrentFood(double currentFood) {
-        this.currentFood = this.currentFood + currentFood;
-        this.currentFood = Math.min(this.currentFood, MAX_FOOD);
     }
 
 
