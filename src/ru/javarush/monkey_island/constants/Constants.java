@@ -114,4 +114,27 @@ public class Constants {
     static public int chanceToEat(int typeOfItem1, int typeOfItem2) {
         return chanceToEat[typeOfItem1][typeOfItem2];
     }
+
+    static int[] chanceToReproduce = new int[17];
+    static {
+        chanceToReproduce[1] = 5;
+        chanceToReproduce[2] = 6;
+        chanceToReproduce[3] = 7;
+        chanceToReproduce[4] = 8;
+        chanceToReproduce[5] = 9;
+        chanceToReproduce[6] = 10;
+        chanceToReproduce[7] = 11;
+        chanceToReproduce[8] = 30;
+        chanceToReproduce[9] = 30;
+        chanceToReproduce[10] = 14;
+        chanceToReproduce[11] = 15;
+        chanceToReproduce[12] = 16;
+        chanceToReproduce[13] = 17;
+        chanceToReproduce[14] = 18;
+        chanceToReproduce[15] = 50;
+        chanceToReproduce[16] = 50;
+    }
+    static public int chanceToReproduce(int typeOfItem1) {
+        return chanceToReproduce[typeOfItem1];
+    }
 }

@@ -28,8 +28,21 @@ public class GameField implements Runnable {
             for (int i = 1; i < 17; i++) {//до 16, потому что трава все равно никого не ест
                 for (GameItem gameItem : listOfItems.get(i)) {
                     tryToEat(gameItem);
-
                 }
+
+            }
+            for (int i = 1; i < 17; i++) {
+                Queue<GameItem> newCreatedItems = new LinkedList<>();
+                for (GameItem gameItem : listOfItems.get(i)) {
+                    int amountOfNewItems = tryToReproduce(gameItem);
+                    if (amountOfNewItems > 0) {
+                        for (int j = 0; j < amountOfNewItems; j++) {
+                            newCreatedItems.add(createNewItem(i));
+                        }
+                    }
+                }
+                listOfItems.get(i).addAll(newCreatedItems);
+                System.out.println("Type " + i + " was created = " + newCreatedItems.size());
                 System.out.println("TYPE " + i + " : " + listOfItems.get(i).size());
             }
         }
@@ -45,7 +58,7 @@ public class GameField implements Runnable {
                 listOfAvailableFood.add(i);
             }
         }
-        System.out.println(listOfAvailableFood + " " + listOfAvailableFood.size());
+        //System.out.println(listOfAvailableFood + " " + listOfAvailableFood.size());
         //System.out.println("List of available food = " + listOfAvailableFood.size());
         if (listOfAvailableFood.size() > 0) {
             int randomTypeForAttack = ThreadLocalRandom.current().nextInt(listOfAvailableFood.size());
@@ -54,6 +67,19 @@ public class GameField implements Runnable {
                 System.out.println(pointsOfAttack + " " + gameItem.getClass().getSimpleName() + " Ест " +listOfItems.get(listOfAvailableFood.get(randomTypeForAttack)).poll().getClass().getSimpleName());
             }
         }
+    }
+
+    public int tryToReproduce(GameItem gameItem) {
+
+        int typeOfItem = gameItem.getTYPE();
+        if (listOfItems.get(typeOfItem).size() > 1) {
+            int randomTypeForReproduce = ThreadLocalRandom.current().nextInt(101);
+            if (randomTypeForReproduce > 100 - Constants.chanceToReproduce(typeOfItem)){
+
+                return 1;
+            }
+        }
+        return 0;
     }
 
     GameItem createNewItem(int i) {
