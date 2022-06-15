@@ -9,25 +9,27 @@ public class Constants {
     int ISLAND_LENGTH = 100;
     int ISLAND_WIDTH = 20;
 
-    public HashMap<Integer, Integer> MAX_ITEMS_ON_FIELD = new HashMap<>();
-
+    public int[] maxItemsOnField = new int[17];
     {
-        MAX_ITEMS_ON_FIELD.put(1, 30);
-        MAX_ITEMS_ON_FIELD.put(2, 30);
-        MAX_ITEMS_ON_FIELD.put(3, 30);
-        MAX_ITEMS_ON_FIELD.put(4, 5);
-        MAX_ITEMS_ON_FIELD.put(5, 20);
-        MAX_ITEMS_ON_FIELD.put(6, 20);
-        MAX_ITEMS_ON_FIELD.put(7, 20);
-        MAX_ITEMS_ON_FIELD.put(8, 150);
-        MAX_ITEMS_ON_FIELD.put(9, 500);
-        MAX_ITEMS_ON_FIELD.put(10, 140);
-        MAX_ITEMS_ON_FIELD.put(11, 140);
-        MAX_ITEMS_ON_FIELD.put(12, 50);
-        MAX_ITEMS_ON_FIELD.put(13, 10);
-        MAX_ITEMS_ON_FIELD.put(14, 200);
-        MAX_ITEMS_ON_FIELD.put(15, 1000);
-        MAX_ITEMS_ON_FIELD.put(16, 200);
+        maxItemsOnField[1] = 30;
+        maxItemsOnField[2] = 30;
+        maxItemsOnField[3] = 30;
+        maxItemsOnField[4] = 5;
+        maxItemsOnField[5] = 20;
+        maxItemsOnField[6] = 20;
+        maxItemsOnField[7] = 20;
+        maxItemsOnField[8] = 150;
+        maxItemsOnField[9] = 500;
+        maxItemsOnField[10] = 140;
+        maxItemsOnField[11] = 140;
+        maxItemsOnField[12] = 50;
+        maxItemsOnField[13] = 10;
+        maxItemsOnField[14] = 200;
+        maxItemsOnField[15] = 1000;
+        maxItemsOnField[16] = 200;
+    }
+    public int getMaxItemsOnField(int typeOfItem1) {
+        return maxOffspring[typeOfItem1];
     }
 
     HashMap<Integer, Set<Integer>> MapOfCanEat = new HashMap<>();
@@ -136,5 +138,29 @@ public class Constants {
     }
     public int chanceToReproduce(int typeOfItem1) {
         return chanceToReproduce[typeOfItem1];
+    }
+
+    int[] maxOffspring = new int[17];
+    {
+        maxOffspring[1] = 2;
+        maxOffspring[2] = 2;
+        maxOffspring[3] = 2;
+        maxOffspring[4] = 2;
+        maxOffspring[5] = 2;
+        maxOffspring[6] = 2;
+        maxOffspring[7] = 2;
+        maxOffspring[8] = 5;
+        maxOffspring[9] = 7;
+        maxOffspring[10] = 2;
+        maxOffspring[11] = 2;
+        maxOffspring[12] = 2;
+        maxOffspring[13] = 2;
+        maxOffspring[14] = 5;
+        maxOffspring[15] = 5;
+        maxOffspring[16] = 3;
+    }
+
+    public int getMaxOffspring(int typeOfItem1) {
+        return maxOffspring[typeOfItem1];
     }
 }

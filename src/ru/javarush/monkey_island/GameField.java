@@ -13,19 +13,19 @@ public class GameField implements Runnable {
 
     GameField(Constants constants){
         this.constants = constants;
-    }
 
-    {
+        //Filling field by random creatures
         for (int i = 1; i < 17; i++) {
             listOfItems.put(i, new LinkedList<>());
         }
-
         for (int i = 1; i < 17; i++) {
-            for (int j = 1; j < 3 + ThreadLocalRandom.current().nextInt(constants.MAX_ITEMS_ON_FIELD.get(i) / 2); j++) {
+            for (int j = 1; j < 3 + ThreadLocalRandom.current().nextInt(constants.getMaxItemsOnField(i) / 2); j++) {
                 listOfItems.get(i).add(createNewItem(i));
             }
         }
     }
+
+
 
     @Override
     public void run() {
@@ -51,7 +51,6 @@ public class GameField implements Runnable {
             }
         }
     }
-
     public void tryToEat(GameItem gameItem) {
         List<Integer> listOfAvailableFood = new ArrayList<>();
         int typeOfItem = gameItem.getTYPE();
@@ -61,7 +60,6 @@ public class GameField implements Runnable {
                 listOfAvailableFood.add(i);
             }
         }
-
         if (listOfAvailableFood.size() > 0) {
             int randomTypeForAttack = ThreadLocalRandom.current().nextInt(listOfAvailableFood.size());
             int pointsOfAttack = ThreadLocalRandom.current().nextInt(101);
@@ -70,18 +68,17 @@ public class GameField implements Runnable {
             }
         }
     }
-
     public int tryToReproduce(GameItem gameItem) {
         int typeOfItem = gameItem.getTYPE();
         if (listOfItems.get(typeOfItem).size() > 1) {
             int randomTypeForReproduce = ThreadLocalRandom.current().nextInt(101);
             if (randomTypeForReproduce > 100 - constants.chanceToReproduce(typeOfItem)){
-                return 1;
+                int offspring = 1 + ThreadLocalRandom.current().nextInt(constants.getMaxOffspring(typeOfItem));
+                return offspring;
             }
         }
         return 0;
     }
-
     GameItem createNewItem(int i) {
         switch (i) {
             case 1:
