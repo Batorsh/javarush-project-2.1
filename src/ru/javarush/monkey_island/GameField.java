@@ -8,7 +8,12 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class GameField implements Runnable {
 
+    Constants constants;
     HashMap<Integer, Queue<GameItem>> listOfItems = new HashMap<>();
+
+    GameField(Constants constants){
+        this.constants = constants;
+    }
 
     {
         for (int i = 1; i < 17; i++) {
@@ -16,7 +21,7 @@ public class GameField implements Runnable {
         }
 
         for (int i = 1; i < 17; i++) {
-            for (int j = 1; j < 3 + ThreadLocalRandom.current().nextInt(Constants.MAX_ITEMS_ON_FIELD.get(i) / 2); j++) {
+            for (int j = 1; j < 3 + ThreadLocalRandom.current().nextInt(constants.MAX_ITEMS_ON_FIELD.get(i) / 2); j++) {
                 listOfItems.get(i).add(createNewItem(i));
             }
         }
@@ -29,7 +34,6 @@ public class GameField implements Runnable {
                 for (GameItem gameItem : listOfItems.get(i)) {
                     tryToEat(gameItem);
                 }
-
             }
             for (int i = 1; i < 17; i++) {
                 Queue<GameItem> newCreatedItems = new LinkedList<>();
@@ -51,31 +55,27 @@ public class GameField implements Runnable {
     public void tryToEat(GameItem gameItem) {
         List<Integer> listOfAvailableFood = new ArrayList<>();
         int typeOfItem = gameItem.getTYPE();
-        //System.out.println("TypeOfItem - " + typeOfItem);
         double needFood = gameItem.getMAX_FOOD();
         for (int i = 1; i < 17; i++) {
-            if (Constants.chanceToEat(typeOfItem, i) > 0 && listOfItems.get(i).size() > 0) {
+            if (constants.chanceToEat(typeOfItem, i) > 0 && listOfItems.get(i).size() > 0) {
                 listOfAvailableFood.add(i);
             }
         }
-        //System.out.println(listOfAvailableFood + " " + listOfAvailableFood.size());
-        //System.out.println("List of available food = " + listOfAvailableFood.size());
+
         if (listOfAvailableFood.size() > 0) {
             int randomTypeForAttack = ThreadLocalRandom.current().nextInt(listOfAvailableFood.size());
             int pointsOfAttack = ThreadLocalRandom.current().nextInt(101);
-            if (pointsOfAttack > 100 - Constants.chanceToEat(typeOfItem, listOfAvailableFood.get(randomTypeForAttack))) {
+            if (pointsOfAttack > 100 - constants.chanceToEat(typeOfItem, listOfAvailableFood.get(randomTypeForAttack))) {
                 System.out.println(pointsOfAttack + " " + gameItem.getClass().getSimpleName() + " Ест " +listOfItems.get(listOfAvailableFood.get(randomTypeForAttack)).poll().getClass().getSimpleName());
             }
         }
     }
 
     public int tryToReproduce(GameItem gameItem) {
-
         int typeOfItem = gameItem.getTYPE();
         if (listOfItems.get(typeOfItem).size() > 1) {
             int randomTypeForReproduce = ThreadLocalRandom.current().nextInt(101);
-            if (randomTypeForReproduce > 100 - Constants.chanceToReproduce(typeOfItem)){
-
+            if (randomTypeForReproduce > 100 - constants.chanceToReproduce(typeOfItem)){
                 return 1;
             }
         }

@@ -6,12 +6,12 @@ import java.util.*;
 
 public class Constants {
 
-    static int ISLAND_LENGTH = 100;
-    static int ISLAND_WIDTH = 20;
+    int ISLAND_LENGTH = 100;
+    int ISLAND_WIDTH = 20;
 
-    static public HashMap<Integer, Integer> MAX_ITEMS_ON_FIELD = new HashMap<>();
+    public HashMap<Integer, Integer> MAX_ITEMS_ON_FIELD = new HashMap<>();
 
-    static {
+    {
         MAX_ITEMS_ON_FIELD.put(1, 30);
         MAX_ITEMS_ON_FIELD.put(2, 30);
         MAX_ITEMS_ON_FIELD.put(3, 30);
@@ -30,9 +30,9 @@ public class Constants {
         MAX_ITEMS_ON_FIELD.put(16, 200);
     }
 
-    static HashMap<Integer, Set<Integer>> MapOfCanEat = new HashMap<>();
+    HashMap<Integer, Set<Integer>> MapOfCanEat = new HashMap<>();
 
-    static {
+    {
         MapOfCanEat.put(1, new HashSet<>(List.of(6, 7, 8, 9, 10, 11, 12, 13, 14)));
         MapOfCanEat.put(2, new HashSet<>(List.of(3, 8, 9, 14)));
         MapOfCanEat.put(3, new HashSet<>(List.of(8, 9, 14, 15)));
@@ -51,9 +51,9 @@ public class Constants {
         MapOfCanEat.put(16, new HashSet<>(List.of(0)));
     }
 
-    static int[][] chanceToEat = new int[17][17];
+    int[][] chanceToEat = new int[17][17];
 
-    static {
+    {
         //Wolf
         chanceToEat[1][6] = 10;
         chanceToEat[1][7] = 15;
@@ -106,17 +106,17 @@ public class Constants {
 
     }
 
-    static public boolean canEat(GameItem gameItem1, GameItem gameItem2) {
+    public boolean canEat(GameItem gameItem1, GameItem gameItem2) {
 
         return MapOfCanEat.get(gameItem1.getTYPE()).contains(gameItem2.getTYPE());
     }
 
-    static public int chanceToEat(int typeOfItem1, int typeOfItem2) {
+    public int chanceToEat(int typeOfItem1, int typeOfItem2) {
         return chanceToEat[typeOfItem1][typeOfItem2];
     }
 
-    static int[] chanceToReproduce = new int[17];
-    static {
+    int[] chanceToReproduce = new int[17];
+    {
         chanceToReproduce[1] = 5;
         chanceToReproduce[2] = 6;
         chanceToReproduce[3] = 7;
@@ -134,7 +134,7 @@ public class Constants {
         chanceToReproduce[15] = 50;
         chanceToReproduce[16] = 50;
     }
-    static public int chanceToReproduce(int typeOfItem1) {
+    public int chanceToReproduce(int typeOfItem1) {
         return chanceToReproduce[typeOfItem1];
     }
 }

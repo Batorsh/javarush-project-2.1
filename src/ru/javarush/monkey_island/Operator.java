@@ -12,7 +12,7 @@ public class Operator {
     public void start() {
         for (int i = 0; i < ISLAND_WIDTH; i++) {
             for (int j = 0; j < ISLAND_LENGTH; j++) {
-                fields[i][j] = new GameField();
+                //fields[i][j] = new GameField();
             }
         }
     }
