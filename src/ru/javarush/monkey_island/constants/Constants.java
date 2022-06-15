@@ -9,6 +9,12 @@ public class Constants {
     int ISLAND_LENGTH = 100;
     int ISLAND_WIDTH = 20;
 
+    int amountOfTypes = 16 + 1; // +1 because 0 didn't use
+
+    public int getAmountOfTypes() {
+        return amountOfTypes;
+    }
+
     public int[] maxItemsOnField = new int[17];
     {
         maxItemsOnField[1] = 30;
@@ -32,7 +38,7 @@ public class Constants {
         return maxItemsOnField[typeOfItem1];
     }
 
-    HashMap<Integer, Set<Integer>> MapOfCanEat = new HashMap<>();
+    HashMap<Integer, Set<Integer>> MapOfCanEat = new HashMap<>();//Можно поменять на массив
 
     {
         MapOfCanEat.put(1, new HashSet<>(List.of(6, 7, 8, 9, 10, 11, 12, 13, 14)));
@@ -133,8 +139,8 @@ public class Constants {
         chanceToReproduce[12] = 16;
         chanceToReproduce[13] = 5;
         chanceToReproduce[14] = 18;
-        chanceToReproduce[15] = 50;
-        chanceToReproduce[16] = 50;
+        chanceToReproduce[15] = 70;
+        chanceToReproduce[16] = 70;
     }
     public int chanceToReproduce(int typeOfItem1) {
         return chanceToReproduce[typeOfItem1];
@@ -156,8 +162,8 @@ public class Constants {
         maxOffspring[12] = 2;
         maxOffspring[13] = 2;
         maxOffspring[14] = 5;
-        maxOffspring[15] = 5;
-        maxOffspring[16] = 3;
+        maxOffspring[15] = 8;
+        maxOffspring[16] = 10;
     }
 
     public int getMaxOffspring(int typeOfItem1) {
