@@ -69,12 +69,13 @@ public class GameField implements Runnable {
         }
     }
     public int tryToReproduce(GameItem gameItem) {
+
         int typeOfItem = gameItem.getTYPE();
-        if (listOfItems.get(typeOfItem).size() > 1) {
+        if (listOfItems.get(typeOfItem).size() > 1 && listOfItems.get(typeOfItem).size() < constants.getMaxItemsOnField(typeOfItem)) {
             int randomTypeForReproduce = ThreadLocalRandom.current().nextInt(101);
             if (randomTypeForReproduce > 100 - constants.chanceToReproduce(typeOfItem)){
                 int offspring = 1 + ThreadLocalRandom.current().nextInt(constants.getMaxOffspring(typeOfItem));
-                return offspring;
+                return Math.min(offspring, constants.getMaxOffspring(typeOfItem) - listOfItems.get(typeOfItem).size());
             }
         }
         return 0;

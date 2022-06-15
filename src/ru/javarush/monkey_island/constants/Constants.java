@@ -122,8 +122,8 @@ public class Constants {
         chanceToReproduce[1] = 5;
         chanceToReproduce[2] = 6;
         chanceToReproduce[3] = 7;
-        chanceToReproduce[4] = 8;
-        chanceToReproduce[5] = 9;
+        chanceToReproduce[4] = 3;
+        chanceToReproduce[5] = 5;
         chanceToReproduce[6] = 10;
         chanceToReproduce[7] = 11;
         chanceToReproduce[8] = 30;
@@ -131,7 +131,7 @@ public class Constants {
         chanceToReproduce[10] = 14;
         chanceToReproduce[11] = 15;
         chanceToReproduce[12] = 16;
-        chanceToReproduce[13] = 17;
+        chanceToReproduce[13] = 5;
         chanceToReproduce[14] = 18;
         chanceToReproduce[15] = 50;
         chanceToReproduce[16] = 50;
