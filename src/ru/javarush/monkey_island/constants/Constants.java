@@ -29,7 +29,7 @@ public class Constants {
         maxItemsOnField[16] = 200;
     }
     public int getMaxItemsOnField(int typeOfItem1) {
-        return maxOffspring[typeOfItem1];
+        return maxItemsOnField[typeOfItem1];
     }
 
     HashMap<Integer, Set<Integer>> MapOfCanEat = new HashMap<>();
