@@ -69,8 +69,8 @@ public class GameField implements Runnable {
                     }
                 }
                 listOfItems.get(i).addAll(newCreatedItems);
-                System.out.println("TYPE " + i + " was created = " + newCreatedItems.size());
-                System.out.println("TYPE " + i + " : " + listOfItems.get(i).size() + " : max on field " + constants.getMaxItemsOnField(i));
+                System.out.println(getTypeByNumber(i) + " was created = " + newCreatedItems.size());
+                System.out.println(getTypeByNumber(i) + " : " + listOfItems.get(i).size() + " : max on field " + constants.getMaxItemsOnField(i));
             }
             //ReducingHP and Abandon Island
             for (int i = 1; i < constants.getAmountOfTypes() - 2; i++) {//до 15, потому что трава и гусеница не умирают
@@ -159,6 +159,41 @@ public class GameField implements Runnable {
             default:
                 return new Plant();
         }
-
+    }
+        String getTypeByNumber(int i) {
+            switch (i) {
+                case 1:
+                    return "Wolf";
+                case 2:
+                    return "Boa";
+                case 3:
+                    return "Fox";
+                case 4:
+                    return "Bear";
+                case 5:
+                    return "Eagle";
+                case 6:
+                    return "Horse";
+                case 7:
+                    return "Deer";
+                case 8:
+                    return "Rabbit";
+                case 9:
+                    return "Mouse";
+                case 10:
+                    return "Goat";
+                case 11:
+                    return "Sheep";
+                case 12:
+                    return "Hog";
+                case 13:
+                    return "Buffalo";
+                case 14:
+                    return "Duck";
+                case 15:
+                    return "Caterpillar";
+                default:
+                    return "Plant";
+            }
     }
 }

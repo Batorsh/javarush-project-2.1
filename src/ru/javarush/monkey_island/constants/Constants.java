@@ -139,7 +139,7 @@ public class Constants {
         chanceToReproduce[12] = 16;
         chanceToReproduce[13] = 5;
         chanceToReproduce[14] = 18;
-        chanceToReproduce[15] = 100;
+        chanceToReproduce[15] = 90;
         chanceToReproduce[16] = 70;
     }
     public int chanceToReproduce(int typeOfItem1) {
