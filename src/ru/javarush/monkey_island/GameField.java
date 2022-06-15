@@ -31,6 +31,7 @@ public class GameField implements Runnable {
     @Override
     public void run() {
         for (int day = 1; day < 100; day++) {
+            System.out.println("Day " + day);
             //Eating
             for (int i = 1; i < constants.getAmountOfTypes() - 1; i++) {//до 16, потому что трава все равно никого не ест
                 for (GameItem gameItem : listOfItems.get(i)) {
@@ -44,11 +45,20 @@ public class GameField implements Runnable {
                 if (listOfItems.get(i).size() < constants.getMaxItemsOnField(i)) {
                     if (i != 16) {
                         for (GameItem gameItem : listOfItems.get(i)) {
+
                             int amountOfNewItems = tryToReproduce(gameItem);
                             //System.out.println(amountOfNewItems);
                             if (amountOfNewItems > 0) {
-                                for (int j = 0; j < amountOfNewItems; j++) {
-                                    newCreatedItems.add(createNewItem(i));
+                                if (amountOfNewItems + listOfItems.get(i).size() + newCreatedItems.size() > constants.getMaxItemsOnField(i)) {
+                                    amountOfNewItems = constants.getMaxItemsOnField(i) - listOfItems.get(i).size() - newCreatedItems.size();
+                                    for (int j = 0; j < amountOfNewItems; j++) {
+                                        newCreatedItems.add(createNewItem(i));
+                                    }
+                                    break;
+                                } else {
+                                    for (int j = 0; j < amountOfNewItems; j++) {
+                                        newCreatedItems.add(createNewItem(i));
+                                    }
                                 }
                             }
                         }
