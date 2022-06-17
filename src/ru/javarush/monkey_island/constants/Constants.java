@@ -9,6 +9,17 @@ public class Constants {
     int ISLAND_LENGTH = 100;
     int ISLAND_WIDTH = 20;
 
+    public Constants(int ISLAND_LENGTH, int ISLAND_WIDTH) {
+        this.ISLAND_LENGTH = ISLAND_LENGTH;
+        this.ISLAND_WIDTH = ISLAND_WIDTH;
+    }
+
+    public int getISLAND_LENGTH() {
+        return ISLAND_LENGTH;
+    }
+    public int getISLAND_WIDTH() {
+        return ISLAND_WIDTH;
+    }
     int amountOfTypes = 16 + 1; // +1 because 0 didn't use
 
     public int getAmountOfTypes() {
@@ -168,5 +179,51 @@ public class Constants {
 
     public int getMaxOffspring(int typeOfItem1) {
         return maxOffspring[typeOfItem1];
+    }
+
+    int[] maxSpeed = new int[17];
+    {
+        maxSpeed[1] = 3;
+        maxSpeed[2] = 1;
+        maxSpeed[3] = 2;
+        maxSpeed[4] = 2;
+        maxSpeed[5] = 3;
+        maxSpeed[6] = 4;
+        maxSpeed[7] = 4;
+        maxSpeed[8] = 2;
+        maxSpeed[9] = 1;
+        maxSpeed[10] = 3;
+        maxSpeed[11] = 3;
+        maxSpeed[12] = 2;
+        maxSpeed[13] = 3;
+        maxSpeed[14] = 4;
+        maxSpeed[15] = 0;
+        maxSpeed[16] = 0;
+    }
+
+    public int getMaxSpeed(int typeOfItem1) {
+        return maxSpeed[typeOfItem1];
+    }
+    int[] chanceToMove = new int[17];
+    {
+        chanceToMove[1] = 30;
+        chanceToMove[2] = 10;
+        chanceToMove[3] = 20;
+        chanceToMove[4] = 20;
+        chanceToMove[5] = 30;
+        chanceToMove[6] = 40;
+        chanceToMove[7] = 40;
+        chanceToMove[8] = 20;
+        chanceToMove[9] = 10;
+        chanceToMove[10] = 30;
+        chanceToMove[11] = 30;
+        chanceToMove[12] = 20;
+        chanceToMove[13] = 30;
+        chanceToMove[14] = 40;
+        chanceToMove[15] = 0;
+        chanceToMove[16] = 0;
+    }
+    public int getChanceToMove(int typeOfItem1) {
+        return chanceToMove[typeOfItem1];
     }
 }
