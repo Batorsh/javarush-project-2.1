@@ -1,14 +1,14 @@
-package ru.javarush.monkey_island.items;
+package ru.javarush.monkeyisland.items;
 
-public class Wolf extends Predator{
-    final static int TYPE = 1;
-    final static int WEIGHT = 50_000;
+public class Fox extends Predator{
+    final static int TYPE = 3;
+    final static int WEIGHT = 8_000;
     int MAX_AMOUNT_ON_FIELD;
     int SPEED;
-    static int MAX_HEALTH_POINT = 8_000;
+    static int MAX_HEALTH_POINT = 2_000;
 
     int healthPoint;
-    int healthPointsPerDay = 1_700;
+    int healthPointsPerDay = 400;
 
     public int getHealthPointsPerDay() {
         return healthPointsPerDay;
@@ -27,10 +27,12 @@ public class Wolf extends Predator{
     }
 
 
-    public int getTYPE() {
+    @Override
+    public int getType() {
         return TYPE;
     }
-    public int getWEIGHT() {
+    @Override
+    public int getWeight() {
         return WEIGHT;
     }
 

@@ -1,14 +1,14 @@
-package ru.javarush.monkey_island.items;
+package ru.javarush.monkeyisland.items;
 
-public class Rabbit extends Herbivore {
-    final static int TYPE = 8;
-    final static int WEIGHT = 2_000;
+public class Sheep extends Herbivore {
+    final static int TYPE = 11;
+    final static int WEIGHT = 70_000;
     int MAX_AMOUNT_ON_FIELD;
     int SPEED;
-    static int MAX_HEALTH_POINT = 450;
+    static int MAX_HEALTH_POINT = 15_000;
 
     int healthPoint;
-    int healthPointsPerDay = 80;
+    int healthPointsPerDay = 2_500;
 
     public int getHealthPointsPerDay() {
         return healthPointsPerDay;
@@ -26,10 +26,11 @@ public class Rabbit extends Herbivore {
         return MAX_HEALTH_POINT;
     }
 
-    public int getTYPE() {
+
+    public int getType() {
         return TYPE;
     }
-    public int getWEIGHT() {
+    public int getWeight() {
         return WEIGHT;
     }
 

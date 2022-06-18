@@ -1,14 +1,14 @@
-package ru.javarush.monkey_island.items;
+package ru.javarush.monkeyisland.items;
 
-public class Plant extends GameItem{
+public class Deer extends Herbivore {
+    static final int TYPE = 7;
+    static final int WEIGHT = 300_000;
+    int MAX_AMOUNT_ON_FIELD;
+    int SPEED;
+    static int MAX_HEALTH_POINT = 50_000;
 
-    final static int TYPE = 16;
-    final static int WEIGHT = 1_000;
-
-    static int MAX_HEALTH_POINT = 1;
-
-    int healthPoint = 1;
-    int healthPointsPerDay = 0;
+    int healthPoint;
+    int healthPointsPerDay = 12_000;
 
     public int getHealthPointsPerDay() {
         return healthPointsPerDay;
@@ -25,10 +25,14 @@ public class Plant extends GameItem{
     public int getMaxHealthPoint() {
         return MAX_HEALTH_POINT;
     }
-    public int getTYPE() {
+
+
+    @Override
+    public int getType() {
         return TYPE;
     }
-    public int getWEIGHT() {
+    @Override
+    public int getWeight() {
         return WEIGHT;
     }
 

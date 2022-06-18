@@ -1,14 +1,14 @@
-package ru.javarush.monkey_island.items;
+package ru.javarush.monkeyisland.items;
 
-public class Mouse extends Herbivore {
-    final static int TYPE = 9;
-    final static int WEIGHT = 50;
+public class Goat extends Herbivore {
+    final static int TYPE = 10;
+    final static int WEIGHT = 60_000;
     int MAX_AMOUNT_ON_FIELD;
     int SPEED;
-    static int MAX_HEALTH_POINT = 10;
+    static int MAX_HEALTH_POINT = 10_000;
 
     int healthPoint;
-    int healthPointsPerDay = 1;
+    int healthPointsPerDay = 2_000;
 
     public int getHealthPointsPerDay() {
         return healthPointsPerDay;
@@ -27,11 +27,13 @@ public class Mouse extends Herbivore {
     }
 
 
-    public int getTYPE() {
+    public int getType() {
         return TYPE;
     }
-    public int getWEIGHT() {
+
+    public int getWeight() {
         return WEIGHT;
     }
-
 }
+
+

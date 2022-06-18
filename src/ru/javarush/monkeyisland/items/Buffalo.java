@@ -1,23 +1,21 @@
-package ru.javarush.monkey_island.items;
+package ru.javarush.monkeyisland.items;
 
-import java.util.HashMap;
-
-public class Bear extends Predator{
-    final static int TYPE = 4;
-    final static int WEIGHT = 500_000;
+public class Buffalo extends Herbivore {
+    static int TYPE = 13;
+    static int WEIGHT = 700_000;
     int MAX_AMOUNT_ON_FIELD;
     int SPEED;
-    static int MAX_HEALTH_POINT = 80_000;
+    static int MAX_HEALTH_POINT = 100_000;
 
     int healthPoint;
-    int healthPointsPerDay = 20_000;
+    int healthPointsPerDay = 15_000;
 
     public int getHealthPointsPerDay() {
         return healthPointsPerDay;
     }
     public void setHealthPoint(int healthPoint) {
         this.healthPoint += healthPoint;
-        if (this.healthPoint > getMaxHealthPoint()){
+        if (this.healthPoint > getMaxHealthPoint()) {
             this.healthPoint = getMaxHealthPoint();
         }
     }
@@ -28,18 +26,14 @@ public class Bear extends Predator{
         return MAX_HEALTH_POINT;
     }
 
+
     @Override
-    public int getTYPE() {
+    public int getType() {
         return TYPE;
     }
     @Override
-    public int getWEIGHT() {
+    public int getWeight() {
         return WEIGHT;
     }
-
-
-
-
-
 
 }
