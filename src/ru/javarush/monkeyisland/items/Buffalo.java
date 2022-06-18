@@ -1,7 +1,7 @@
 package ru.javarush.monkeyisland.items;
 
 public class Buffalo extends Herbivore {
-    static int TYPE = 13;
+    static int TYPE = 12;
     static int WEIGHT = 700_000;
     int MAX_AMOUNT_ON_FIELD;
     int SPEED;

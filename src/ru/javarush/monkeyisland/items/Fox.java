@@ -1,7 +1,7 @@
 package ru.javarush.monkeyisland.items;
 
 public class Fox extends Predator{
-    final static int TYPE = 3;
+    final static int TYPE = 2;
     final static int WEIGHT = 8_000;
     int MAX_AMOUNT_ON_FIELD;
     int SPEED;

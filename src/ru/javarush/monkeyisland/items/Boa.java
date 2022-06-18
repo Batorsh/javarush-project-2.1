@@ -1,7 +1,7 @@
 package ru.javarush.monkeyisland.items;
 
 public class Boa extends Predator {
-    static int TYPE = 2;
+    static int TYPE = 1;
     static int WEIGHT = 15000;
     int MAX_AMOUNT_ON_FIELD;
     int SPEED;

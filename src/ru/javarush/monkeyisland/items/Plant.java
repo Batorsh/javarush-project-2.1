@@ -2,7 +2,7 @@ package ru.javarush.monkeyisland.items;
 
 public class Plant extends GameItem{
 
-    final static int TYPE = 16;
+    final static int TYPE = 15;
     final static int WEIGHT = 1_000;
 
     static int MAX_HEALTH_POINT = 1;

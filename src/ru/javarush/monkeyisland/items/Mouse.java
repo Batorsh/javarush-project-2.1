@@ -1,7 +1,7 @@
 package ru.javarush.monkeyisland.items;
 
 public class Mouse extends Herbivore {
-    final static int TYPE = 9;
+    final static int TYPE = 8;
     final static int WEIGHT = 50;
     int MAX_AMOUNT_ON_FIELD;
     int SPEED;

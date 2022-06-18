@@ -13,7 +13,7 @@ public class GameField implements Runnable {
     FreeSpaceController freeSpaceController;
     Exchanger exchanger;
     Phaser phaser;
-    HashMap<Integer, Queue<GameItem>> listOfItems = new HashMap<>();
+    HashMap<Integer, List<GameItem>> listOfItems = new HashMap<>();
 
     private int x;
     private int y;
@@ -28,7 +28,7 @@ public class GameField implements Runnable {
         this.phaser.register();
         //Filling field by random creatures
         for (int i = 0; i < constants.getAmountOfTypes(); i++) {
-            listOfItems.put(i, new LinkedList<>());
+            listOfItems.put(i, new ArrayList<>());
         }
         for (int i = 0; i < constants.getAmountOfTypes(); i++) {
             int solidPart = constants.getMaxItemsOnField(i) / 4;
@@ -55,9 +55,8 @@ public class GameField implements Runnable {
             phaser.arriveAndAwaitAdvance();
             //Eating
             for (int i = 0; i < constants.getAmountOfTypes() - 1; i++) {//до 16, потому что трава все равно никого не ест
-                for (GameItem gameItem : listOfItems.get(i)) {
-
-                    tryToEat(gameItem);
+                for (int j = 0; j < listOfItems.get(i).size(); i++) {
+                    tryToEat(listOfItems.get(i).get(j));
                 }
             }
             System.out.println("Field №" + getY() + " " + getX() + " выполняет фазу поедания " + phaser.getPhase());
@@ -155,7 +154,8 @@ public class GameField implements Runnable {
         List<Integer> listOfAvailableFood = new ArrayList<>();
         int typeOfItem = gameItem.getType();
 
-        for (int i = 1; i < constants.getAmountOfTypes(); i++) {
+        for (int i = 0; i < constants.getAmountOfTypes(); i++) {
+            System.out.println("I " + i);
             if (constants.chanceToEat(typeOfItem, i) > 0 && listOfItems.get(i).size() > 0) {
                 listOfAvailableFood.add(i);
             }
@@ -164,9 +164,11 @@ public class GameField implements Runnable {
             int randomTypeForAttack = ThreadLocalRandom.current().nextInt(listOfAvailableFood.size());
             int pointsOfAttack = ThreadLocalRandom.current().nextInt(101);
             if (pointsOfAttack > 100 - constants.chanceToEat(typeOfItem, listOfAvailableFood.get(randomTypeForAttack))) {
-                GameItem killedItem = listOfItems.get(listOfAvailableFood.get(randomTypeForAttack)).poll();
+                List<GameItem> killedList = listOfItems.get(listOfAvailableFood.get(randomTypeForAttack));
+                GameItem killedItem = killedList.get(ThreadLocalRandom.current().nextInt(killedList.size()));
                 //System.out.print("Field " + getX() + " " + getY() + " " + pointsOfAttack + " " + gameItem.getClass().getSimpleName() + " " + gameItem.hashCode() + " eats " + killedItem.getClass().getSimpleName());
                 gameItem.setHealthPoint(killedItem.getWeight());
+                killedList.remove(killedItem);
                 //System.out.println(" and gets " + killedItem.getWEIGHT() + " health points");
             }
         }

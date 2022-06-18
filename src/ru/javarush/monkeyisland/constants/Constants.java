@@ -135,10 +135,7 @@ public class Constants {
         chanceToEat[13][14] = 90;
         chanceToEat[13][15] = 100;
         chanceToEat[14][15] = 100;
-
     }
-
-
 
     public int chanceToEat(int typeOfItem1, int typeOfItem2) {
         return chanceToEat[typeOfItem1][typeOfItem2];

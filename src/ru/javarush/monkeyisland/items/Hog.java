@@ -1,7 +1,7 @@
 package ru.javarush.monkeyisland.items;
 
 public class Hog extends Herbivore {
-    final static int TYPE = 12;
+    final static int TYPE = 11;
     final static int WEIGHT = 400_000;
     int MAX_AMOUNT_ON_FIELD;
     int SPEED;

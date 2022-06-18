@@ -1,7 +1,7 @@
 package ru.javarush.monkeyisland.items;
 
 public class Eagle extends Predator {
-    final static int TYPE = 5;
+    final static int TYPE = 4;
     final static int WEIGHT = 6000;
     int MAX_AMOUNT_ON_FIELD;
     int SPEED;
