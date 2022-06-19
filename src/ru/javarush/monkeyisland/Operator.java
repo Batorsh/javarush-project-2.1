@@ -4,7 +4,7 @@ import ru.javarush.monkeyisland.constants.Constants;
 
 import java.util.Iterator;
 import java.util.Queue;
-import java.util.concurrent.Phaser;
+import java.util.concurrent.*;
 
 public class Operator implements Runnable {
     int islandWidth;
@@ -30,12 +30,12 @@ public class Operator implements Runnable {
 
     @Override
     public void run() {
+        //ExecutorService executorService = Executors.newFixedThreadPool(20);
         GameField[][] gameFields = new GameField[islandWidth][islandLength];
         for (int i = 0; i < islandWidth; i++) {
             for (int j = 0; j < islandLength; j++) {
                 gameFields[i][j] = new GameField(constants, freeSpaceController, exchanger, i, j, days, phaser);
-                //ExecutorService service = Executors.newFixedThreadPool(10);
-                //service.submit(gameField);
+                //executorService.submit(gameFields[i][j]);
                 Thread thread = new Thread(gameFields[i][j]);
                 thread.start();
             }

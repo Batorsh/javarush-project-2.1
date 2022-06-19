@@ -150,13 +150,9 @@ public class GameField implements Runnable {
             }
             //System.out.println("Field №" + getY() + " " + getX() + " выполняет фазу трансфера фигур " + phaser.getPhase());
             phaser.arriveAndAwaitAdvance();
-            /*if (day == 29) {
-                for (TransferGameItem transferGameItem : exchanger.getQueueOfTransferredItems()) {
-                    System.out.println(transferGameItem.getGameItem().getClass().getSimpleName() + " new field is: y = " + transferGameItem.getY() +
-                            ", x = " + transferGameItem.getX());
-                }
-                System.out.println("Exchanger " + exchanger.getQueueOfTransferredItems());
-            }*/
+            if (day == days - 1) {
+                phaser.arriveAndDeregister();
+            }
         }
 
     }
