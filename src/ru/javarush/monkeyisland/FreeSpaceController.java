@@ -1,5 +1,7 @@
 package ru.javarush.monkeyisland;
 
+import ru.javarush.monkeyisland.items.GameItem;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +18,7 @@ public class FreeSpaceController {
         this.ISLAND_WIDTH = islandWidth;
         this.ISLAND_LENGTH = islandLength;
 
-        //System.out.println("Island width and length = " + ISLAND_WIDTH + " " + ISLAND_LENGTH);
+        System.out.println("Island width and length = " + ISLAND_WIDTH + " " + ISLAND_LENGTH);
         this.numbersOfItems = numbersOfItems;
         this.freeSpaces = new ArrayList[islandWidth][islandLength];
 
@@ -30,17 +32,9 @@ public class FreeSpaceController {
     public synchronized List<Integer> getFreeSpaces(int y, int x) {
         return freeSpaces[y][x];
     }
-
-
-}
-class ListWrapper{
-    List<Integer> listOfFreeSpaces = new ArrayList<>();
-
-    public void setListOfFreeSpaces(List<Integer> listOfFreeSpaces) {
-        this.listOfFreeSpaces = listOfFreeSpaces;
-    }
-
-    public List<Integer> getListOfFreeSpaces() {
-        return listOfFreeSpaces;
+    public synchronized void minusOneSpace(int type, int y, int x) {
+        //System.out.println("FreeSpaces: " + inFreeSpaces + " " + y  + " " + x);
+        Integer newInteger = freeSpaces[y][x].get(type) - 1;
+        freeSpaces[y][x].add(type, newInteger);
     }
 }

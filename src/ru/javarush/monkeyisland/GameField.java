@@ -21,7 +21,7 @@ public class GameField implements Runnable {
     private int x;
     private int y;
 
-    GameField(Constants constants, FreeSpaceController freeSpaceController, Exchanger exchanger, int x, int y, int days, Phaser phaser) {
+    GameField(Constants constants, FreeSpaceController freeSpaceController, Exchanger exchanger, int y, int x, int days, Phaser phaser) {
         this.freeSpaceController = freeSpaceController;
         this.exchanger = exchanger;
         this.constants = constants;
@@ -134,18 +134,19 @@ public class GameField implements Runnable {
                     GameItem gameItem = listOfItems.get(i).get(j);
                     int randomTypeForReproduce = ThreadLocalRandom.current().nextInt(101);
                     if (randomTypeForReproduce > 100 - constants.getChanceToMove(gameItem.getType())) {
-                        List<Coordinates> availableCoordinates = getAvailableFieldsToMove(gameItem);
-                        if (availableCoordinates.size() > 0) {
-                            int randomField = ThreadLocalRandom.current().nextInt(availableCoordinates.size());
-                            int newY = availableCoordinates.get(randomField).getY();
-                            int newX = availableCoordinates.get(randomField).getX();
-                            exchanger.addTransferItem(new TransferGameItem(gameItem, newY, newX));
-                            listOfItems.get(i).remove(gameItem);
+                        synchronized (freeSpaceController) {
+                            List<Coordinates> availableCoordinates = getAvailableFieldsToMove(gameItem);
+                            if (availableCoordinates.size() > 0) {
+                                int randomField = ThreadLocalRandom.current().nextInt(availableCoordinates.size());
+                                int newY = availableCoordinates.get(randomField).getY();
+                                int newX = availableCoordinates.get(randomField).getX();
+                                exchanger.addTransferItem(new TransferGameItem(gameItem, newY, newX));
+                                listOfItems.get(i).remove(gameItem);
+                                freeSpaceController.minusOneSpace(gameItem.getType(), newY, newX);
+                            }
                         }
                     }
-
                 }
-
             }
             //System.out.println("Field №" + getY() + " " + getX() + " выполняет фазу трансфера фигур " + phaser.getPhase());
             phaser.arriveAndAwaitAdvance();
@@ -206,7 +207,7 @@ public class GameField implements Runnable {
         int x;
         int y;
 
-        public Coordinates(int x, int y) {
+        public Coordinates(int y, int x) {
             this.x = x;
             this.y = y;
         }
@@ -231,10 +232,13 @@ public class GameField implements Runnable {
             int limit = steps - Math.abs(i);
             for (int j = -limit; j < limit + 1; j++) {
                 if (!(i == 0 && j == 0)) {
-                    if (getY() + i >= 0 && getY() + i < constants.getIslandWidth() &&
-                            getX() + j >= 0 && getX() + j < constants.getIslandLength()) {
+                    int newY = getY() + i;
+                    int newX = getX() + j;
+                    if (newY >= 0 && newY < constants.getIslandWidth() &&
+                            newX >= 0 && newX < constants.getIslandLength()) {
+                        //System.out.println("New coordinates: " + newY + " " + newX);
                         List<Integer> mapOfFreeSpaces = freeSpaceController
-                                .getFreeSpaces(getY() + i, getX() + j);
+                                .getFreeSpaces(newY, newX);
                         /*for (int t = 0; t < mapOfFreeSpaces.size(); t++) {
                             System.out.print(mapOfFreeSpaces.get(t));
                         }*/

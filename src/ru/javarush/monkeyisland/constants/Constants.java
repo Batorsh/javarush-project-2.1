@@ -10,12 +10,12 @@ import java.util.Set;
 
 public class Constants {
 
-    int ISLAND_LENGTH = 100;
-    int ISLAND_WIDTH = 20;
+    int ISLAND_LENGTH;
+    int ISLAND_WIDTH;
 
-    public Constants(int ISLAND_LENGTH, int ISLAND_WIDTH) {
-        this.ISLAND_LENGTH = ISLAND_LENGTH;
+    public Constants(int ISLAND_WIDTH, int ISLAND_LENGTH) {
         this.ISLAND_WIDTH = ISLAND_WIDTH;
+        this.ISLAND_LENGTH = ISLAND_LENGTH;
     }
 
     public int getIslandLength() {
