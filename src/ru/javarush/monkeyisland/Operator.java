@@ -44,16 +44,18 @@ public class Operator implements Runnable {
         for (int day = 0; day < days; day++) {
             Queue<TransferGameItem> queue = exchanger.getQueueOfTransferredItems();
             Iterator iterator = queue.iterator();
-            System.out.print ("Exchanger Queue size = " + queue.size() + " -> ");
-            while(iterator.hasNext()){
-                TransferGameItem transferGameItem =(TransferGameItem) iterator.next();
-                gameFields[transferGameItem.getY()][transferGameItem.getX()].addGameItemToListOfItems(transferGameItem.getGameItem());
+            System.out.print("Exchanger Queue size = " + queue.size() + " -> ");
+            while (iterator.hasNext()) {
+                TransferGameItem transferGameItem = (TransferGameItem) iterator.next();
+                if (gameFields[transferGameItem.getY()][transferGameItem.getX()].listOfItems.get(transferGameItem.getGameItem().getType()).size()
+                        < constants.getMaxItemsOnField(transferGameItem.getGameItem().getType())) {
+                    gameFields[transferGameItem.getY()][transferGameItem.getX()].addGameItemToListOfItems(transferGameItem.getGameItem());
+                }
                 //System.out.println(transferGameItem.getGameItem().getClass().getSimpleName() + " transferred to field" + transferGameItem.getY() +
-                 //       transferGameItem.getX());
+                //       transferGameItem.getX());
                 iterator.remove();
             }
             System.out.println("Exchanger Queue size = " + queue.size());
-
 
 
             phaser.arriveAndAwaitAdvance();
