@@ -2,6 +2,7 @@ package ru.javarush.monkeyisland;
 
 import ru.javarush.monkeyisland.constants.Constants;
 
+import java.util.Iterator;
 import java.util.Queue;
 import java.util.concurrent.Phaser;
 
@@ -42,11 +43,17 @@ public class Operator implements Runnable {
 
         for (int day = 0; day < days; day++) {
             Queue<TransferGameItem> queue = exchanger.getQueueOfTransferredItems();
-            for (TransferGameItem transferGameItem : queue) {
+            Iterator iterator = queue.iterator();
+            System.out.print ("Exchanger Queue size = " + queue.size() + " -> ");
+            while(iterator.hasNext()){
+                TransferGameItem transferGameItem =(TransferGameItem) iterator.next();
                 gameFields[transferGameItem.getY()][transferGameItem.getX()].addGameItemToListOfItems(transferGameItem.getGameItem());
-                System.out.println(transferGameItem.getGameItem().getClass().getSimpleName() + " transferred to field" + transferGameItem.getY() +
-                        transferGameItem.getY());
+                //System.out.println(transferGameItem.getGameItem().getClass().getSimpleName() + " transferred to field" + transferGameItem.getY() +
+                 //       transferGameItem.getX());
+                iterator.remove();
             }
+            System.out.println("Exchanger Queue size = " + queue.size());
+
 
 
             phaser.arriveAndAwaitAdvance();

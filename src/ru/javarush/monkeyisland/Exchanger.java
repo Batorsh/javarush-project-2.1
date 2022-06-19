@@ -1,6 +1,5 @@
 package ru.javarush.monkeyisland;
 
-import ru.javarush.monkeyisland.items.GameItem;
 
 import java.util.*;
 

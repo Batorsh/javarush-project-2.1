@@ -12,18 +12,18 @@ public class FreeSpaceController {
     public List<Integer>[][] freeSpaces;
 
     public FreeSpaceController(int islandWidth, int islandLength, int numbersOfItems) {
-        System.out.println("Constructor FreeSpaceControllera");
+        //System.out.println("Constructor FreeSpaceControllera");
         this.ISLAND_WIDTH = islandWidth;
         this.ISLAND_LENGTH = islandLength;
 
-        System.out.println("Island width and length = " + ISLAND_WIDTH + " " + ISLAND_LENGTH);
+        //System.out.println("Island width and length = " + ISLAND_WIDTH + " " + ISLAND_LENGTH);
         this.numbersOfItems = numbersOfItems;
         this.freeSpaces = new ArrayList[islandWidth][islandLength];
 
 
     }
     public synchronized void setFreeSpaces(List<Integer> inFreeSpaces, int y, int x) {
-        System.out.println(" WTF /////////////" + inFreeSpaces + " " + y  + " " + x);
+        //System.out.println("FreeSpaces: " + inFreeSpaces + " " + y  + " " + x);
         freeSpaces[y][x] = inFreeSpaces;
     }
 

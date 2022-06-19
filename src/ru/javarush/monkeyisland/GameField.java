@@ -48,17 +48,17 @@ public class GameField implements Runnable {
     public void run() {
         for (int day = 1; day < days; day++) {
             //Transferring Items from another fields
-            System.out.println("Field №" + getY() + " " + getX() + " выполняет фазу трансфера фигур из других полей " + phaser.getPhase());
+            //System.out.println("Field №" + getY() + " " + getX() + " выполняет фазу трансфера фигур из других полей " + phaser.getPhase());
             phaser.arriveAndAwaitAdvance();
             //Output statistics
             synchronized (constants) {
-                System.out.print("Field " + getX() + " " + getY() + " Day " + day + ": ");
+                System.out.print("Day " + day + " Field " + getX() + " " + getY() + ": ");
                 for (int i = 0; i < constants.getAmountOfTypes(); i++) {
                     System.out.print(constants.getNameOfTypeByNumber(i) + " " + listOfItems.get(i).size() + "; ");
                 }
                 System.out.println();
             }
-            System.out.println("Field №" + getY() + " " + getX() + " выполняет фазу вывод статистики " + phaser.getPhase());
+            //System.out.println("Field №" + getY() + " " + getX() + " выполняет фазу вывод статистики " + phaser.getPhase());
             phaser.arriveAndAwaitAdvance();
             //Eating
             for (int i = 0; i < constants.getAmountOfTypes() - 1; i++) {//до 14, потому что трава все равно никого не ест
@@ -66,7 +66,7 @@ public class GameField implements Runnable {
                     tryToEat(listOfItems.get(i).get(j));
                 }
             }
-            System.out.println("Field №" + getY() + " " + getX() + " выполняет фазу поедания " + phaser.getPhase());
+            //System.out.println("Field №" + getY() + " " + getX() + " выполняет фазу поедания " + phaser.getPhase());
             phaser.arriveAndAwaitAdvance();
             //Reproducing
             for (int i = 0; i < constants.getAmountOfTypes(); i++) {//
@@ -101,7 +101,7 @@ public class GameField implements Runnable {
                 //System.out.println("Field " + getX() + " " + getY() + " " + getTypeByNumber(i) + " was created = " + newCreatedItems.size());
                 //System.out.println("Field " + getX() + " " + getY() + " " + getTypeByNumber(i) + " : " + listOfItems.get(i).size() + " : max on field " + constants.getMaxItemsOnField(i));
             }
-            System.out.println("Field №" + getY() + " " + getX() + " выполняет фазу репродукции " + phaser.getPhase());
+            //System.out.println("Field №" + getY() + " " + getX() + " выполняет фазу репродукции " + phaser.getPhase());
             phaser.arriveAndAwaitAdvance();
             //ReducingHP and Abandon Island
             for (int i = 0; i < constants.getAmountOfTypes() - 2; i++) {//до 13, потому что трава и гусеница не умирают
@@ -112,7 +112,7 @@ public class GameField implements Runnable {
                     }
                 }
             }
-            System.out.println("Field №" + getY() + " " + getX() + " выполняет фазу уменьшения HP и удаление c HP < 0" + phaser.getPhase());
+            //System.out.println("Field №" + getY() + " " + getX() + " выполняет фазу уменьшения HP и удаление c HP < 0" + phaser.getPhase());
             phaser.arriveAndAwaitAdvance();
             //Sending information about free spaces for creatures
 
@@ -122,10 +122,10 @@ public class GameField implements Runnable {
                 freeSpacesOnField.add(i, constants.getMaxItemsOnField(i) - listOfItems.get(i).size());
 
             }
-            System.out.println(freeSpacesOnField + " " + getY() + " " + getX());
+            //System.out.println(freeSpacesOnField + " " + getY() + " " + getX());
             freeSpaceController.setFreeSpaces(freeSpacesOnField, getY(), getX());
 
-            System.out.println("Field №" + getY() + " " + getX() + " выполняет фазу записи свободных мест " + phaser.getPhase());
+            //System.out.println("Field №" + getY() + " " + getX() + " выполняет фазу записи свободных мест " + phaser.getPhase());
             phaser.arriveAndAwaitAdvance();
             //Moving another field
             for (int i = 0; i < constants.getAmountOfTypes() - 2; i++) {//до 13, потому что трава и гусеница не могут переходить
@@ -147,15 +147,15 @@ public class GameField implements Runnable {
                 }
 
             }
-            System.out.println("Field №" + getY() + " " + getX() + " выполняет фазу трансфера фигур " + phaser.getPhase());
+            //System.out.println("Field №" + getY() + " " + getX() + " выполняет фазу трансфера фигур " + phaser.getPhase());
             phaser.arriveAndAwaitAdvance();
-            if (day == 29) {
+            /*if (day == 29) {
                 for (TransferGameItem transferGameItem : exchanger.getQueueOfTransferredItems()) {
                     System.out.println(transferGameItem.getGameItem().getClass().getSimpleName() + " new field is: y = " + transferGameItem.getY() +
                             ", x = " + transferGameItem.getX());
                 }
                 System.out.println("Exchanger " + exchanger.getQueueOfTransferredItems());
-            }
+            }*/
         }
 
     }
