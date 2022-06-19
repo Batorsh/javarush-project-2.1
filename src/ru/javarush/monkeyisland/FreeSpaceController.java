@@ -9,26 +9,38 @@ public class FreeSpaceController {
     private int ISLAND_WIDTH;
 
     int numbersOfItems;
-    private List<Integer>[][] amountFreePlacesForCreaturesOnField;
+    public List<Integer>[][] freeSpaces;
 
     public FreeSpaceController(int islandWidth, int islandLength, int numbersOfItems) {
-        System.out.println("Constructor operatora");
+        System.out.println("Constructor FreeSpaceControllera");
         this.ISLAND_WIDTH = islandWidth;
         this.ISLAND_LENGTH = islandLength;
+
+        System.out.println("Island width and length = " + ISLAND_WIDTH + " " + ISLAND_LENGTH);
         this.numbersOfItems = numbersOfItems;
-        List<Integer>[][] initAmountFreePlacesForCreaturesOnField = new ArrayList[islandWidth][islandLength];
-        for (int i = 0; i < islandWidth; i++) {
-            for (int j = 0; j < islandLength; j++) {
-                initAmountFreePlacesForCreaturesOnField[i][j] = new ArrayList<>();
-            }
-        }
-        amountFreePlacesForCreaturesOnField = initAmountFreePlacesForCreaturesOnField;
+        this.freeSpaces = new ArrayList[islandWidth][islandLength];
+
+
     }
-    public synchronized void setFreeSpaces(List<Integer> freeSpaces, int y, int x) {
-        amountFreePlacesForCreaturesOnField[y][x] = new ArrayList<>(freeSpaces);
-    }
-    public synchronized List<Integer> getInfoAboutFreeSpaces(int y, int x) {
-        return new ArrayList<>(amountFreePlacesForCreaturesOnField[y][x]);
+    public synchronized void setFreeSpaces(List<Integer> inFreeSpaces, int y, int x) {
+        System.out.println(" WTF /////////////" + inFreeSpaces + " " + y  + " " + x);
+        freeSpaces[y][x] = inFreeSpaces;
     }
 
+    public synchronized List<Integer> getFreeSpaces(int y, int x) {
+        return freeSpaces[y][x];
+    }
+
+
+}
+class ListWrapper{
+    List<Integer> listOfFreeSpaces = new ArrayList<>();
+
+    public void setListOfFreeSpaces(List<Integer> listOfFreeSpaces) {
+        this.listOfFreeSpaces = listOfFreeSpaces;
+    }
+
+    public List<Integer> getListOfFreeSpaces() {
+        return listOfFreeSpaces;
+    }
 }

@@ -14,7 +14,7 @@ public class Exchanger {
 
     public Exchanger(int islandWidth, int islandLength,
                      int numbersOfItems) {
-        System.out.println("Constructor operatora");
+        System.out.println("Constructor exchangera");
         this.ISLAND_WIDTH = islandWidth;
         this.ISLAND_LENGTH = islandLength;
         this.numbersOfItems = numbersOfItems;
