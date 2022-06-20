@@ -1,6 +1,5 @@
 package ru.javarush.monkeyisland;
 
-import org.w3c.dom.ls.LSOutput;
 import ru.javarush.monkeyisland.constants.Constants;
 import ru.javarush.monkeyisland.items.*;
 
@@ -14,7 +13,7 @@ public class GameField implements Runnable {
     FreeSpaceController freeSpaceController;
     Exchanger exchanger;
     Phaser phaser;
-    HashMap<Integer, List<GameItem>> listOfItems = new HashMap<>();
+    HashMap<Integer, List<GameItem>> mapOfItems = new HashMap<>();
 
     int days;
 
@@ -30,62 +29,77 @@ public class GameField implements Runnable {
         this.y = y;
         this.phaser = phaser;
         this.phaser.register();
-        //Filling field by random creatures
+
         for (int i = 0; i < constants.getAmountOfTypes(); i++) {
-            listOfItems.put(i, new ArrayList<>());
+            mapOfItems.put(i, new ArrayList<>());
         }
+        /**
+         * В этом цикле заполняется Мапа игровых элементов случайным образом
+         * каждый элемент помещается в лист, соответствующий своему типу.
+         * четверть от максимально возможного числа элементов на поле заполняется всегда
+         */
         for (int i = 0; i < constants.getAmountOfTypes(); i++) {
             int solidPart = constants.getMaxItemsOnField(i) / 4;
             int randomOfAmountOfTypes = ThreadLocalRandom.current().nextInt(constants.getMaxItemsOnField(i) - solidPart);
             for (int j = 0; j < solidPart + randomOfAmountOfTypes; j++) {
-                listOfItems.get(i).add(createNewItem(i));
+                mapOfItems.get(i).add(createNewItem(i));
             }
-            //System.out.println("Field " + getX() + " " + getY() + " TYPE " + i + " : " + listOfItems.get(i).size() + " : max on field " + constants.getMaxItemsOnField(i));
         }
     }
 
     @Override
     public void run() {
         for (int day = 1; day < days; day++) {
-            //Transferring Items from another fields
-            //System.out.println("Field №" + getY() + " " + getX() + " выполняет фазу трансфера фигур из других полей " + phaser.getPhase());
+            /**
+             * Ждем пока operator распределит переходящих животных
+             */
             phaser.arriveAndAwaitAdvance();
-            //Output statistics
+            /**
+             * Выводим статистику игрового поля поля (День, Номер поля, Игровые элементы)
+             */
             synchronized (constants) {
                 System.out.print("Day " + day + " Field " + getX() + " " + getY() + ": ");
                 for (int i = 0; i < constants.getAmountOfTypes(); i++) {
-                    System.out.print(constants.getNameOfTypeByNumber(i) + " " + listOfItems.get(i).size() + "; ");
+                    System.out.print(constants.getNameOfTypeByNumber(i) + " " + mapOfItems.get(i).size() + "; ");
                 }
                 System.out.println();
             }
-            //System.out.println("Field №" + getY() + " " + getX() + " выполняет фазу вывод статистики " + phaser.getPhase());
             phaser.arriveAndAwaitAdvance();
-            //Eating
+            /**
+             * В цикле пробегаем по всем животным
+             * Животное пробует съесть другой игровой элемент
+             */
             for (int i = 0; i < constants.getAmountOfTypes() - 1; i++) {//до 14, потому что трава все равно никого не ест
-                for (int j = 0; j < listOfItems.get(i).size(); j++) {
-                    tryToEat(listOfItems.get(i).get(j));
+                for (int j = 0; j < mapOfItems.get(i).size(); j++) {
+                    tryToEat(mapOfItems.get(i).get(j));
                 }
             }
-            //System.out.println("Field №" + getY() + " " + getX() + " выполняет фазу поедания " + phaser.getPhase());
             phaser.arriveAndAwaitAdvance();
-            //Reproducing
+            /**
+             * В цикле пробегаем по всем животным
+             * Животное пробует размножиться
+             */
             for (int i = 0; i < constants.getAmountOfTypes(); i++) {//
+                /**
+                 * Если размножение произошло удачно, новые животные помещаются в newCreatedList
+                 */
                 List<GameItem> newCreatedItems = new LinkedList<>();
-                if (listOfItems.get(i).size() < constants.getMaxItemsOnField(i)) {
+                if (mapOfItems.get(i).size() < constants.getMaxItemsOnField(i)) {
                     if (i != 15) {//Plant reproduce another way
-                        for (GameItem gameItem : listOfItems.get(i)) {
-
+                        for (GameItem gameItem : mapOfItems.get(i)) {
+                            /**
+                             * Получаем количество потомства в случае удачного исхода
+                             */
                             int amountOfNewItems = tryToReproduce(gameItem);
-                            //System.out.println(amountOfNewItems);
                             if (amountOfNewItems > 0) {
-                                if (amountOfNewItems + listOfItems.get(i).size() + newCreatedItems.size() > constants.getMaxItemsOnField(i)) {
-                                    amountOfNewItems = constants.getMaxItemsOnField(i) - listOfItems.get(i).size() - newCreatedItems.size();
+                                if (amountOfNewItems + mapOfItems.get(i).size() + newCreatedItems.size() > constants.getMaxItemsOnField(i)) {
+                                    amountOfNewItems = constants.getMaxItemsOnField(i) - mapOfItems.get(i).size() - newCreatedItems.size();
                                     for (int j = 0; j < amountOfNewItems; j++) {
                                         newCreatedItems.add(createNewItem(i));
                                     }
                                     break;
                                 } else {
-                                    for (int j = 0; j < amountOfNewItems; j++) {
+                                    for (int j = 0; j < amountOfNewItems; j++) {//удалить
                                         newCreatedItems.add(createNewItem(i));
                                     }
                                 }
@@ -97,64 +111,68 @@ public class GameField implements Runnable {
                         }
                     }
                 }
-                listOfItems.get(i).addAll(newCreatedItems);
-                //System.out.println("Field " + getX() + " " + getY() + " " + getTypeByNumber(i) + " was created = " + newCreatedItems.size());
-                //System.out.println("Field " + getX() + " " + getY() + " " + getTypeByNumber(i) + " : " + listOfItems.get(i).size() + " : max on field " + constants.getMaxItemsOnField(i));
+                mapOfItems.get(i).addAll(newCreatedItems);
             }
-            //System.out.println("Field №" + getY() + " " + getX() + " выполняет фазу репродукции " + phaser.getPhase());
             phaser.arriveAndAwaitAdvance();
-            //ReducingHP and Abandon Island
+            /**
+             * Отнимаем HP за день, если HP меньше 0, удалем его с поля
+             */
             for (int i = 0; i < constants.getAmountOfTypes() - 2; i++) {//до 13, потому что трава и гусеница не умирают
-                for (int j = 0; j < listOfItems.get(i).size(); j++) {
-                    if (reduceHPbyDay(listOfItems.get(i).get(j)) < 0) {
-                        //System.out.println("Field " + getX() + " " + getY() + " " + gameItem.getClass().getSimpleName() + " " + gameItem.hashCode() + " abandoned");
-                        listOfItems.remove(listOfItems.get(i).get(j));
+                for (int j = 0; j < mapOfItems.get(i).size(); j++) {
+                    if (reduceHPbyDay(mapOfItems.get(i).get(j)) < 0) {
+                        mapOfItems.remove(mapOfItems.get(i).get(j));
                     }
                 }
             }
-            //System.out.println("Field №" + getY() + " " + getX() + " выполняет фазу уменьшения HP и удаление c HP < 0" + phaser.getPhase());
             phaser.arriveAndAwaitAdvance();
-            //Sending information about free spaces for creatures
-
+            /**
+             * Заполняем информацию о свободных местах на текущем поле
+             */
             List<Integer> freeSpacesOnField = new ArrayList<>();//можно переделать на массив
             for (int i = 0; i < constants.getAmountOfTypes() - 2; i++) {//до 13, потому что трава и гусеница не могут переходить
-
-                freeSpacesOnField.add(i, constants.getMaxItemsOnField(i) - listOfItems.get(i).size());
-
+                freeSpacesOnField.add(i, constants.getMaxItemsOnField(i) - mapOfItems.get(i).size());
             }
-            //System.out.println(freeSpacesOnField + " " + getY() + " " + getX());
             freeSpaceController.setFreeSpaces(freeSpacesOnField, getY(), getX());
-
-            //System.out.println("Field №" + getY() + " " + getX() + " выполняет фазу записи свободных мест " + phaser.getPhase());
             phaser.arriveAndAwaitAdvance();
-            //Moving another field
+            /**
+             * Перебираем в цикле всех животных
+             * Каждое животное пробует перейти на другое поле
+             */
             for (int i = 0; i < constants.getAmountOfTypes() - 2; i++) {//до 13, потому что трава и гусеница не могут переходить
-                List<GameItem> listForRemove = new ArrayList<>();
-                for (int j = 0; j < listOfItems.get(i).size(); j++) {
-                    GameItem gameItem = listOfItems.get(i).get(j);
+                for (int j = 0; j < mapOfItems.get(i).size(); j++) {
+                    GameItem gameItem = mapOfItems.get(i).get(j);
                     int randomTypeForReproduce = ThreadLocalRandom.current().nextInt(101);
                     if (randomTypeForReproduce > 100 - constants.getChanceToMove(gameItem.getType())) {
                         synchronized (freeSpaceController) {
+                            /**
+                             * Здесь получаем список полей возможных для перехода,
+                             * зависит от количества клеток, на которое может перейти животное,
+                             * зависит от наличия свободных мест в поле для данного вида животных,
+                             * учитываются границы острова
+                             */
                             List<Coordinates> availableCoordinates = getAvailableFieldsToMove(gameItem);
                             if (availableCoordinates.size() > 0) {
                                 int randomField = ThreadLocalRandom.current().nextInt(availableCoordinates.size());
+                                /**
+                                 * Выбираем поле из возможных
+                                 * удаляем из Мапы текущего поля
+                                 * резервируем место в новом поле
+                                 */
                                 int newY = availableCoordinates.get(randomField).getY();
                                 int newX = availableCoordinates.get(randomField).getX();
                                 exchanger.addTransferItem(new TransferGameItem(gameItem, newY, newX));
-                                listOfItems.get(i).remove(gameItem);
+                                mapOfItems.get(i).remove(gameItem);
                                 freeSpaceController.minusOneSpace(gameItem.getType(), newY, newX);
                             }
                         }
                     }
                 }
             }
-            //System.out.println("Field №" + getY() + " " + getX() + " выполняет фазу трансфера фигур " + phaser.getPhase());
             phaser.arriveAndAwaitAdvance();
             if (day == days - 1) {
                 phaser.arriveAndDeregister();
             }
         }
-
     }
 
     public void tryToEat(GameItem gameItem) {
@@ -163,7 +181,7 @@ public class GameField implements Runnable {
 
         for (int i = 0; i < constants.getAmountOfTypes(); i++) {
 
-            if (constants.chanceToEat(typeOfItem, i) > 0 && listOfItems.get(i).size() > 0) {
+            if (constants.chanceToEat(typeOfItem, i) > 0 && mapOfItems.get(i).size() > 0) {
                 listOfAvailableFood.add(i);
             }
         }
@@ -171,12 +189,9 @@ public class GameField implements Runnable {
             int randomTypeForAttack = ThreadLocalRandom.current().nextInt(listOfAvailableFood.size());
             int pointsOfAttack = ThreadLocalRandom.current().nextInt(101);
             if (pointsOfAttack > 100 - constants.chanceToEat(typeOfItem, listOfAvailableFood.get(randomTypeForAttack))) {
-                List<GameItem> killedList = listOfItems.get(listOfAvailableFood.get(randomTypeForAttack));
+                List<GameItem> killedList = mapOfItems.get(listOfAvailableFood.get(randomTypeForAttack));
                 GameItem killedItem = killedList.remove(killedList.size() - 1);
-                //System.out.print("Field " + getX() + " " + getY() + " " + pointsOfAttack + " " + gameItem.getClass().getSimpleName() + " " + gameItem.hashCode() + " eats " + killedItem.getClass().getSimpleName());
                 gameItem.setHealthPoint(killedItem.getWeight());
-                //killedList.remove(killedItem);
-                //System.out.println(" and gets " + killedItem.getWEIGHT() + " health points");
             }
         }
     }
@@ -184,7 +199,7 @@ public class GameField implements Runnable {
     public int tryToReproduce(GameItem gameItem) {
 
         int typeOfItem = gameItem.getType();
-        if (listOfItems.get(typeOfItem).size() > 1) {
+        if (mapOfItems.get(typeOfItem).size() > 1) {
             int randomTypeForReproduce = ThreadLocalRandom.current().nextInt(101);
             if (randomTypeForReproduce > 100 - constants.chanceToReproduce(typeOfItem)) {
                 int offspring = 1 + ThreadLocalRandom.current().nextInt(constants.getMaxOffspring(typeOfItem));
@@ -218,7 +233,7 @@ public class GameField implements Runnable {
     }
 
     public void addGameItemToListOfItems(GameItem gameItem) {
-        listOfItems.get(gameItem.getType()).add(gameItem);
+        mapOfItems.get(gameItem.getType()).add(gameItem);
     }
 
     List<Coordinates> getAvailableFieldsToMove(GameItem gameItem) {
@@ -232,17 +247,11 @@ public class GameField implements Runnable {
                     int newX = getX() + j;
                     if (newY >= 0 && newY < constants.getIslandWidth() &&
                             newX >= 0 && newX < constants.getIslandLength()) {
-                        //System.out.println("New coordinates: " + newY + " " + newX);
                         List<Integer> mapOfFreeSpaces = freeSpaceController
                                 .getFreeSpaces(newY, newX);
-                        /*for (int t = 0; t < mapOfFreeSpaces.size(); t++) {
-                            System.out.print(mapOfFreeSpaces.get(t));
-                        }*/
-
                         if (mapOfFreeSpaces.get(gameItem.getType()) > 0) {
                             availableFields.add(new Coordinates(getY() + i, getX() + j));
                         }
-
                     }
                 }
             }

@@ -30,29 +30,34 @@ public class Operator implements Runnable {
 
     @Override
     public void run() {
-        //ExecutorService executorService = Executors.newFixedThreadPool(20);
+        /**
+         * Создаем двумерный массив игровых полей
+         * Размер массива соотвествует заданному размеру острова
+         * Запускаем нить каждого поля
+         */
         GameField[][] gameFields = new GameField[islandWidth][islandLength];
         for (int i = 0; i < islandWidth; i++) {
             for (int j = 0; j < islandLength; j++) {
                 gameFields[i][j] = new GameField(constants, freeSpaceController, exchanger, i, j, days, phaser);
-                //executorService.submit(gameFields[i][j]);
                 Thread thread = new Thread(gameFields[i][j]);
                 thread.start();
             }
         }
-
+        /**
+         * Оператор в начале игрового дня распределят животных желающих перейти в другое поле
+         * в первый день переходящих животных нет, т.к. очередь формируется в конце дня.
+         * Показываем количество мигрирующих животных
+         */
         for (int day = 0; day < days; day++) {
             Queue<TransferGameItem> queue = exchanger.getQueueOfTransferredItems();
             Iterator iterator = queue.iterator();
             System.out.print("Exchanger Queue size = " + queue.size() + " -> ");
             while (iterator.hasNext()) {
                 TransferGameItem transferGameItem = (TransferGameItem) iterator.next();
-                if (gameFields[transferGameItem.getY()][transferGameItem.getX()].listOfItems.get(transferGameItem.getGameItem().getType()).size()
+                if (gameFields[transferGameItem.getY()][transferGameItem.getX()].mapOfItems.get(transferGameItem.getGameItem().getType()).size()
                         < constants.getMaxItemsOnField(transferGameItem.getGameItem().getType())) {
                     gameFields[transferGameItem.getY()][transferGameItem.getX()].addGameItemToListOfItems(transferGameItem.getGameItem());
                 }
-                //System.out.println(transferGameItem.getGameItem().getClass().getSimpleName() + " transferred to field" + transferGameItem.getY() +
-                //       transferGameItem.getX());
                 iterator.remove();
             }
             System.out.println("Exchanger Queue size = " + queue.size());
