@@ -14,6 +14,8 @@ public class GameField implements Runnable {
     Exchanger exchanger;
     Phaser phaser;
     HashMap<Integer, List<GameItem>> mapOfItems = new HashMap<>();
+    private final int PLANT_PER_DAY = 100;
+    private final int ONE_HUNDRED_PERCENTS = 100;
 
     int days;
 
@@ -50,24 +52,14 @@ public class GameField implements Runnable {
     @Override
     public void run() {
         for (int day = 1; day < days; day++) {
-
             phaser.arriveAndAwaitAdvance();
-
             printStatistics(day);
-
-
             eat();
-
-
             reproduce();
-
-
             reduceHP();
             phaser.arriveAndAwaitAdvance();
-
             fillFreeSpaces();
             phaser.arriveAndAwaitAdvance();
-
             moveAnotherField();
             phaser.arriveAndAwaitAdvance();
             if (day == days - 1) {
@@ -111,7 +103,7 @@ public class GameField implements Runnable {
         if (listOfAvailableFood.size() > 0) {
             int randomTypeForAttack = ThreadLocalRandom.current().nextInt(listOfAvailableFood.size());
             int pointsOfAttack = ThreadLocalRandom.current().nextInt(101);
-            if (pointsOfAttack > 100 - constants.chanceToEat(typeOfItem, listOfAvailableFood.get(randomTypeForAttack))) {
+            if (pointsOfAttack > ONE_HUNDRED_PERCENTS - constants.chanceToEat(typeOfItem, listOfAvailableFood.get(randomTypeForAttack))) {
                 List<GameItem> killedList = mapOfItems.get(listOfAvailableFood.get(randomTypeForAttack));
                 GameItem killedItem = killedList.remove(killedList.size() - 1);
                 gameItem.setHealthPoint(killedItem.getWeight());
@@ -121,16 +113,12 @@ public class GameField implements Runnable {
 
     private void reproduce() {
         for (int i = 0; i < constants.getAmountOfTypes(); i++) {//
-            /**
-             * Если размножение произошло удачно, новые животные помещаются в newCreatedList
-             */
+
             List<GameItem> newCreatedItems = new LinkedList<>();
             if (mapOfItems.get(i).size() < constants.getMaxItemsOnField(i)) {
                 if (i != 15) {//Plant reproduce another way
                     for (GameItem gameItem : mapOfItems.get(i)) {
-                        /**
-                         * Получаем количество потомства в случае удачного исхода
-                         */
+
                         int amountOfNewItems = tryToReproduce(gameItem);
                         if (amountOfNewItems > 0) {
                             if (amountOfNewItems + mapOfItems.get(i).size() + newCreatedItems.size() > constants.getMaxItemsOnField(i)) {
@@ -147,7 +135,7 @@ public class GameField implements Runnable {
                         }
                     }
                 } else {
-                    for (int j = 0; j < 100; j++) {
+                    for (int j = 0; j < PLANT_PER_DAY; j++) {
                         newCreatedItems.add(createNewItem(i));
                     }
                 }
@@ -161,7 +149,7 @@ public class GameField implements Runnable {
         int typeOfItem = gameItem.getType();
         if (mapOfItems.get(typeOfItem).size() > 1) {
             int randomTypeForReproduce = ThreadLocalRandom.current().nextInt(101);
-            if (randomTypeForReproduce > 100 - constants.chanceToReproduce(typeOfItem)) {
+            if (randomTypeForReproduce > ONE_HUNDRED_PERCENTS - constants.chanceToReproduce(typeOfItem)) {
                 int offspring = 1 + ThreadLocalRandom.current().nextInt(constants.getMaxOffspring(typeOfItem));
                 return offspring;
             }
@@ -197,7 +185,7 @@ public class GameField implements Runnable {
             for (int j = 0; j < mapOfItems.get(i).size(); j++) {
                 GameItem gameItem = mapOfItems.get(i).get(j);
                 int randomTypeForReproduce = ThreadLocalRandom.current().nextInt(101);
-                if (randomTypeForReproduce > 100 - constants.getChanceToMove(gameItem.getType())) {
+                if (randomTypeForReproduce > ONE_HUNDRED_PERCENTS - constants.getChanceToMove(gameItem.getType())) {
                     synchronized (freeSpaceController) {
                         /**
                          * Здесь получаем список полей возможных для перехода,

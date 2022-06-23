@@ -30,11 +30,7 @@ public class Operator implements Runnable {
 
     @Override
     public void run() {
-        /**
-         * Создаем двумерный массив игровых полей
-         * Размер массива соотвествует заданному размеру острова
-         * Запускаем нить каждого поля
-         */
+
         GameField[][] gameFields = new GameField[islandWidth][islandLength];
         for (int i = 0; i < islandWidth; i++) {
             for (int j = 0; j < islandLength; j++) {
@@ -43,11 +39,7 @@ public class Operator implements Runnable {
                 thread.start();
             }
         }
-        /**
-         * Оператор в начале игрового дня распределят животных желающих перейти в другое поле
-         * в первый день переходящих животных нет, т.к. очередь формируется в конце дня.
-         * Показываем количество мигрирующих животных
-         */
+
         for (int day = 0; day < days; day++) {
             Queue<TransferGameItem> queue = exchanger.getQueueOfTransferredItems();
             Iterator iterator = queue.iterator();
