@@ -51,7 +51,7 @@ public class Operator implements Runnable {
         for (int day = 0; day < days; day++) {
             Queue<TransferGameItem> queue = exchanger.getQueueOfTransferredItems();
             Iterator iterator = queue.iterator();
-            System.out.print("Exchanger Queue size = " + queue.size() + " -> ");
+            System.out.println("Количество мигрировавших животных за ход = " + queue.size() + ";");
             while (iterator.hasNext()) {
                 TransferGameItem transferGameItem = (TransferGameItem) iterator.next();
                 if (gameFields[transferGameItem.getY()][transferGameItem.getX()].mapOfItems.get(transferGameItem.getGameItem().getType()).size()
@@ -60,12 +60,10 @@ public class Operator implements Runnable {
                 }
                 iterator.remove();
             }
-            System.out.println("Exchanger Queue size = " + queue.size());
+            //System.out.println("Exchanger Queue size = " + queue.size());
 
 
-            phaser.arriveAndAwaitAdvance();
-            phaser.arriveAndAwaitAdvance();
-            phaser.arriveAndAwaitAdvance();
+
             phaser.arriveAndAwaitAdvance();
             phaser.arriveAndAwaitAdvance();
             phaser.arriveAndAwaitAdvance();

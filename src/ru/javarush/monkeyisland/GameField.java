@@ -50,41 +50,24 @@ public class GameField implements Runnable {
     @Override
     public void run() {
         for (int day = 1; day < days; day++) {
-            /**
-             * Ждем пока operator распределит переходящих животных
-             */
+
             phaser.arriveAndAwaitAdvance();
-            /**
-             * Выводим статистику игрового поля поля (День, Номер поля, Игровые элементы)
-             */
+
             printStatistics(day);
-            phaser.arriveAndAwaitAdvance();
-            /**
-             * В цикле пробегаем по всем животным
-             * Животное пробует съесть другой игровой элемент
-             */
+
+
             eat();
-            phaser.arriveAndAwaitAdvance();
-            /**
-             * В цикле пробегаем по всем животным
-             * Каждое животное пробует размножиться
-             */
+
+
             reproduce();
-            phaser.arriveAndAwaitAdvance();
-            /**
-             * Отнимаем HP за день, если HP меньше 0, удалем его с поля
-             */
+
+
             reduceHP();
             phaser.arriveAndAwaitAdvance();
-            /**
-             * Заполняем информацию о свободных местах на текущем поле
-             */
+
             fillFreeSpaces();
             phaser.arriveAndAwaitAdvance();
-            /**
-             * Перебираем в цикле всех животных
-             * Каждое животное пробует перейти на другое поле
-             */
+
             moveAnotherField();
             phaser.arriveAndAwaitAdvance();
             if (day == days - 1) {
